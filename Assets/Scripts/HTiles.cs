@@ -2,9 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HTiles
+public class HTiles :MonoBehaviour
 {
-    HTilesType hTilesEnum = HTilesType.None;
+    public bool activeTile = false;
+    public SOTile tile;
 
-    public float size = 1;
+    public float noiseValue;
+    
+    //처음 생성
+
+    public void SetTile(SOTile tile, bool active)
+    {
+        this.tile = tile;
+        activeTile = active;
+    }
 }
