@@ -337,9 +337,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80bb4c5c9d4e18d45944f7277adf63c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  height: 10
-  width: 10
+  height: 50
+  width: 50
   cellSize: 1
+  scale: 19.5
+  seed: 1234
+  octaves: 4
+  persistence: 1.08
+  lacunarity: 1.8
   prefab: {fileID: 0}
 --- !u!4 &1835409596
 Transform:

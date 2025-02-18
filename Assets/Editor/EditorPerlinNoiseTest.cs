@@ -8,7 +8,7 @@ public class EditorPerlinNoiseTest
     public static void RunPerlinNoiseTest()
     {
         PerlinNoise noise = new PerlinNoise(1234);
-        float result = noise.PerlinNoise2D(1.0f, 2.0f, 5.0f);
+        float result = noise.PerlinNoise2D(1.0f, 2.0f);
 
         if (result >= -1f && result <= 1f)
         {

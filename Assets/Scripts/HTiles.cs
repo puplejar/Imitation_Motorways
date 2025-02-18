@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HTiles :MonoBehaviour
+public class HTiles : MonoBehaviour
 {
     public bool activeTile = false;
     public SOTile tile;
@@ -15,5 +16,10 @@ public class HTiles :MonoBehaviour
     {
         this.tile = tile;
         activeTile = active;
+    }
+
+    public void OnMouseDown()
+    {
+        Debug.Log(noiseValue);
     }
 }
