@@ -11,6 +11,5 @@ public class SOTile : ScriptableObject
     //액티브가능한(집을 지을 수 잇는지, 도로를 건설가능한지) 불값
     
     public Sprite sprite;
-    public HTilesType hTilesType;
     public Vector3 Size;
 }

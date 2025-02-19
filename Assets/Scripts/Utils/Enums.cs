@@ -2,11 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum HTilesType
+public enum HWayType
 {
+    Way,
+    Highway,
+    Bridge,
+    //신호등
+    //교차로
     None,
-    Wall,
-    Floor,
-    Building,
+}
+
+public enum HBuildingType
+{
     House,
+    Company,
+    Wall,
+    None,
+}
+
+public enum TerrainType
+{
+    Ground,
+    Water,
+    Bridge,
+    None,
 }

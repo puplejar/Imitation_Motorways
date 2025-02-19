@@ -340,11 +340,12 @@ MonoBehaviour:
   height: 50
   width: 50
   cellSize: 1
-  scale: 19.5
-  seed: 1234
+  scale: 10.45
+  seed: 1162
   octaves: 4
-  persistence: 1.08
-  lacunarity: 1.8
+  persistence: 0.3
+  lacunarity: 2
+  waterPoint: 2
   prefab: {fileID: 0}
 --- !u!4 &1835409596
 Transform:
