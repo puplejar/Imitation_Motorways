@@ -20,10 +20,9 @@ public enum HBuildingType
     None,
 }
 
-public enum TerrainType
+public enum HTerrainType
 {
     Ground,
     Water,
-    Bridge,
     None,
 }

@@ -1,123 +1,89 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class HTiles : MonoBehaviour , IDragHandler , IPointerClickHandler
+public class HTiles : MonoBehaviour
 {
-    private TerrainType _terrainType;
+    private HTerrainType _hTerrainType;
 
-    public TerrainType terrainType
+    public HTerrainType hTerrainType
     {
-        get { return _terrainType; }
+        get { return _hTerrainType; }
         set
         {
-            _terrainType = value;
+            _hTerrainType = value;
             Renderer renderer = gameObject.GetComponent<Renderer>();
             
-            switch (_terrainType)
+            switch (_hTerrainType)
             {
-                case TerrainType.Ground:
+                case HTerrainType.Ground:
                     //Test Renderer
                     renderer.material.color = Color.white;
                     break;
-                case TerrainType.Water:
+                case HTerrainType.Water:
                     renderer.material.color = Color.blue;
-                    break;
-                case TerrainType.Bridge:
-                    //renderer.material.color = Color.white;
                     break;
             }
         }
     }
     
     public SOTile tile;
-    public HTileList tileList; //프라이벳?
+    //float값으로 찾고 반환함 (HTiles로 찾게되면 명확하지 않음)
+    public Dictionary<float,HTiles> aroundTiles = new Dictionary<float,HTiles>(); //(노드역할)
 
+    public GameObject hTileObject; // 타일위의 도로혹은 건물오브젝트(아무런 컴포넌트도 없음)
     [HideInInspector] public float noiseValue;
     [HideInInspector] public float cellSize = 1;
-    private IPointerEnterHandler pointerEnterHandlerImplementation;
-
-    private bool canSet = false;
+    
+    //범위체크 : 설치 가능한 범위 안에 들어오면 canSet이 트루가 됨
+    public bool inSetRange = false;
 
     private void Start()
     {
-        //게임매니저안의 UI매니저 안의 타일리스트가 있을것임
-        //타일리스트와 연결해줌
-    }
-
-    void OnMouseOver()
-    {
-
-        if (RangeCheck(MousePosition(), transform.position))
-        {
-            Debug.Log(transform.position);
-            canSet = true;
-        }
+        //HTileObject의 위치를 설정해주어야함
     }
     
-    public void OnPointerClick(PointerEventData eventData)
+    public void SetTile(SOTile tile)
     {
-        if (canSet)
-        {
-            switch (eventData.button)
-            {
-                case PointerEventData.InputButton.Left:
-                    SetTile();
-                    break;
-                case PointerEventData.InputButton.Right:
-                    Debug.Log("🖱️ 오른쪽 버튼 클릭!");
-                    break;
-            }
-        }
+        this.tile = tile;
+        hTileObject = tile.hTileObject;
     }
-    
-    public void OnDrag(PointerEventData eventData)
+
+    public void DestroyTile(HTiles hTiles)
     {
-        if (canSet)
-        {
-            
-        }
+        DisConnectTileAll(hTiles);
+        aroundTiles.Clear();
+        //현재타일 None상태하기
+        SetTile(null);
     }
-    public void SetTile()
+
+    public void ConnectTIle(HTiles hTiles)
     {
-        if(tileList.currentHWayType == HWayType.None) return;
+        aroundTiles.Add(hTiles.noiseValue, hTiles);
         
-        this.tile = tileList.soTiles[(int)tileList.currentHWayType];
-        //함수 안에 만들건데
-        //새로 오브젝트를 생성하는것이 아니고
-        //기존 타일에서 덧씌울것임
-    }
-
-    public void DestroyTile()
-    {
-        //this.tile = 
+        //나중에 도로끼리 이어주는 역할도 해야함
     }
     
-    Vector3 MousePosition()
+    public void DisConncetTile(HTiles hTiles)
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        aroundTiles.Remove(hTiles.noiseValue);
+        
+        //연결돼있던 도로를 끊어주어야함
+    }
+    
+    public void DisConnectTileAll(HTiles hTiles)
+    {
+        //현재 타일의 연결된 모든 노드 타일을 끊어줌
+        foreach (HTiles hTile in hTiles.aroundTiles.Values)
         {
-            return hit.point;
+            hTile.DisConncetTile(hTiles);
         }
-        return Vector3.zero;
     }
-
-    bool RangeCheck(Vector2 point, Vector2 center)
-    {
-        return (point.x - center.x) * (point.x - center.x) + 
-            (point.y - center.y) * (point.y - center.y) <= cellSize * .2f;
-    }
-
+    
     void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position , cellSize* .2f);
     }
-
 }

@@ -9,7 +9,7 @@ public class HTileList : MonoBehaviour
     //타일마다 수량을 가지고 있음
     
     public HWayType currentHWayType = HWayType.None;
-
+    
     void Start()
     {
         soTiles = new SOTile[Enum.GetValues(typeof(HWayType)).Length];

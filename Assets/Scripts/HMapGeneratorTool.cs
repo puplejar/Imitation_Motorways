@@ -56,10 +56,9 @@ public class HMapGeneratorTool : MonoBehaviour
                 
                 tiles[x, y] = go.AddComponent<HTiles>();
                 tiles[x, y].noiseValue = noise.OctavePerlin((float)x/scale, (float)y/scale, octaves, persistence,lacunarity);
-                tiles[x, y].terrainType = TerrainType.Ground;
+                tiles[x, y].hTerrainType = HTerrainType.Ground;
                 
                 //SOTile 할당
-                tiles[x, y].tileList = this.tileList;
                 tiles[x, y].cellSize = cellSize;
             }
         }
@@ -91,9 +90,9 @@ public class HMapGeneratorTool : MonoBehaviour
     {
         if (x < 0 || x >= width || y < 0 || y >= height) return false;
         
-        if (tiles[x, y].noiseValue > 0 && tiles[x, y].terrainType != TerrainType.Water)
+        if (tiles[x, y].noiseValue > 0 && tiles[x, y].hTerrainType != HTerrainType.Water)
         {
-            tiles[x, y].terrainType = TerrainType.Water;
+            tiles[x, y].hTerrainType = HTerrainType.Water;
             WaterExpansion(x + 1, y);
             WaterExpansion(x - 1, y);
             WaterExpansion(x, y + 1);
