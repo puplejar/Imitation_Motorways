@@ -19,11 +19,7 @@ public class MouseEventHandler : MonoBehaviour
     void Update()
     {
         RangeCheck();
-        if (Input.GetMouseButtonDown(0))
-        {
-            SetTileByMouse();
-        }
-        else if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0))
         {
             SetTiles();
         }
@@ -48,7 +44,13 @@ public class MouseEventHandler : MonoBehaviour
             if (currentTile == null) return;
             
             //hit된 지형의 타입이 UI의 선택된 타일의 설치가능한 타입인지 체크
-            if(currentTile.hTerrainType != tileList.soTiles[(int)tileList.currentHWayType].hTerrainType) return;
+            if (currentTile.hTerrainType != tileList.soTiles[(int)tileList.currentHWayType]?.hTerrainType)
+            {
+                //필요하다면 경고표시 이펙트
+                //Bridge가 있다면 해당 if문은 무시하고 타입변환후 셋 타일
+                tiles.Clear();
+                return;
+            }
             
             if (RangeCheck(hit.point,   hit.transform.position))
             {
