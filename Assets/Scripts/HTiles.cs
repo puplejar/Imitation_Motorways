@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class HTiles : MonoBehaviour
 {
-    private HTerrainType _hTerrainType;
+    [SerializeField]private HTerrainType _hTerrainType;
 
     public HTerrainType hTerrainType
     {
@@ -60,18 +60,24 @@ public class HTiles : MonoBehaviour
 
     public void ConnectTIle(HTiles hTiles)
     {
-        aroundTiles.Add(hTiles.noiseValue, hTiles);
-        
-        //나중에 도로끼리 이어주는 역할도 해야함
+        if (!aroundTiles.ContainsKey(hTiles.noiseValue))
+        {
+            aroundTiles.Add(hTiles.noiseValue, hTiles);
+
+            //나중에 도로끼리 이어주는 역할도 해야함
+        }
     }
-    
+
     public void DisConncetTile(HTiles hTiles)
     {
-        aroundTiles.Remove(hTiles.noiseValue);
-        
-        //연결돼있던 도로를 끊어주어야함
+        if (aroundTiles.ContainsKey(hTiles.noiseValue))
+        {
+            aroundTiles.Remove(hTiles.noiseValue);
+
+            //연결돼있던 도로를 끊어주어야함
+        }
     }
-    
+
     public void DisConnectTileAll(HTiles hTiles)
     {
         //현재 타일의 연결된 모든 노드 타일을 끊어줌

@@ -24,5 +24,6 @@ public enum HTerrainType
 {
     Ground,
     Water,
+    Bridge,
     None,
 }
